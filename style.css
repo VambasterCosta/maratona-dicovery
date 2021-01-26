@@ -8,16 +8,35 @@
     box-sizing: border-box;
 }
 
+html{
+    font-size:  93.75%;
+}
+
+
 body{
     background: #f0f2f5;
     font-family: 'Poppins', sans-serif;
 }
+
 
 h2{
     margin-top: 3.2rem;
     margin-bottom: 0.8rem;
     color:var(--color-dark-blue);
     font-weight: 600 ;
+}
+
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border-width: 0;
+
 }
 
 header{
@@ -38,6 +57,23 @@ header{
     margin: auto ;
 }
 
+/*Links e botões*/
+
+a{
+    color: green;
+    text-decoration: none;
+}
+
+a:hover{
+    color: #008891;
+}
+
+.button.new{
+    display: inline-block;
+    margin-bottom: .8rem;
+}
+
+
 /*Balance*/
 
 
@@ -45,6 +81,7 @@ header{
     margin-top: -8rem;
     
 }
+
 #balance h2{
     color: white;
     font-size: 2rem;
@@ -63,6 +100,9 @@ header{
 .card h3{
     font-weight: 600;
     font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .card p{
@@ -77,10 +117,17 @@ header{
     color:white;
 }
 
+#transaction {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
 #data-table{
     width: 100%;
     border-spacing: 0rem 0.5rem;
-    
+   
+    overflow-x: auto;
 
 }
 
@@ -100,6 +147,7 @@ header{
     padding: 1rem 2rem ;
 
 }
+
 #data-table tbody tr{
     opacity:0.7;
 
@@ -132,12 +180,30 @@ header{
 
 
 
-
-
+#data-table thead tr th:last-child,
+#data-table tbody tr td:last-child{
+   border-radius:  0 0.25rem  0.25rem 0;
+   text-align: center;
+}
 
 /*Footer*/
 
 footer{
     text-align: center;
     padding: 5rem;
+}
+
+
+/*Responsive*/
+
+@media (min-width: 800px) {
+    html {
+        font-size: 87.5%;
+    }
+
+    #balance {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
 }
