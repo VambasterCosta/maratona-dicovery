@@ -1,5 +1,6 @@
 :root{
     --color-dark-blue:#0f3057;
+    --color-white-blue:#008891;
 }
 
 *{
@@ -40,7 +41,7 @@ h2{
 }
 
 header{
-    background: #0f3057;
+    background: var(--color-dark-blue);
     padding: 2rem 0 10rem;
     text-align: center;
 }
@@ -65,7 +66,38 @@ a{
 }
 
 a:hover{
-    color: #008891;
+    color: var(--color-white-blue);
+}
+
+button{
+    width: 40%;
+    height: 50px;
+    border: none;
+    color: white;
+    background: var(--color-white-blue);
+    padding: 0;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+button:hover{
+    background: var(--color-dark-blue);
+}
+
+.button.cancel{
+    color: red;
+    width:40%;
+    border:2px red solid;
+    border-radius: 0.25rem;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;  
+}
+
+.button.cancel:hover{
+    opacity: 1;
 }
 
 .button.new{
@@ -78,8 +110,7 @@ a:hover{
 
 
 #balance{
-    margin-top: -8rem;
-    
+    margin-top: -8rem; 
 }
 
 #balance h2{
@@ -108,12 +139,11 @@ a:hover{
 .card p{
     font-size: 2rem;
     line-height: 3rem;
-
     margin-top: 1rem;
 }
 
 .card.total{
-    background: #008891;
+    background: var(--color-white-blue);
     color:white;
 }
 
@@ -125,10 +155,8 @@ a:hover{
 
 #data-table{
     width: 100%;
-    border-spacing: 0rem 0.5rem;
-   
+    border-spacing: 0rem 0.5rem; 
     overflow-x: auto;
-
 }
 
 #data-table th, #data-table td{
@@ -145,13 +173,10 @@ a:hover{
 #data-table td{
     background: white;
     padding: 1rem 2rem ;
-
 }
 
 #data-table tbody tr{
-    opacity:0.7;
-
-    
+    opacity:0.7;  
 }
 #data-table tbody tr:hover {
     opacity:1;    
@@ -178,17 +203,13 @@ a:hover{
    border-radius:  0.25rem 0 0 0.25rem;
 }
 
-
-
 #data-table thead tr th:last-child,
 #data-table tbody tr td:last-child{
    border-radius:  0 0.25rem  0.25rem 0;
    text-align: center;
 }
 
-
 /* Modal */
-
 
 .modal-overlay{
     width: 100%;
@@ -211,16 +232,41 @@ a:hover{
     background:#f0f2f5;
     padding: 2.4rem ;
     position: relative;
-
+    max-width: 500px;
+    width:90%;
+    z-index: 999;
 }
 
+/* formulario*/
 
+#form{
+    max-width: 500px;
+}
 
+#form h2{
+    margin-top: 0;
+}
 
+#form form input{
+    border: none;
+    border-radius: 0.2rem;
+    padding: 0.8rem;
+    width: 100%;
+}
 
+.input-group{
+    margin-top:0.8rem
+}
 
+small{
+    opacity: 0.5;
+}
 
-
+.input-group.action{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 
 
 /*Footer*/
