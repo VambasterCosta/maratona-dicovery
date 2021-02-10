@@ -10,37 +10,27 @@ const modal = {
     }
 }
 
-const transactions = [
-    {
-        id: 1,
-        description: 'Luz',
-        amount: 500000,
-        date: '23/01/2021'
+const Storage = {
+    get() {
+        return JSON.parse(localStorage.getItem("vjc.finances:transactions")) || []
     },
-    {
-        id: 2,
-        description: 'Água',
-        amount: -20000,
-        date: '23/01/2021'
-    },
-    {
-        id: 3,
-        description: 'Web Site',
-        amount: 211,
-        date: '23/01/2021'
+    set(transaction) {
+        localStorage.setItem(
+            "vjc.finances:transactions", JSON.stringify(transaction)
+        )
     }
-]
+}
+
+
 
 const App = {
     init() {
 
-        transactions.forEach(transaction => {
-            DOM.addTransaction(transaction)
-        })
+        Transaction.all.forEach(DOM.addTransaction)
 
         DOM.updateBalance()
 
-
+        Storage.set(Transaction.all)
     },
     reload() {
         DOM.clearTransaction()
@@ -51,10 +41,16 @@ const App = {
 const Utils = {
 
     formatAmount(value) {
+        value = Number(value) * 100
 
-        return "value"
-     },
+        return value
+    },
 
+    formatDate(date) {
+        const splittedDate = date.split("-")
+
+        return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    },
     formatCurrency(value) {
         const sinal = Number(value) < 0 ? "-" : ""
 
@@ -73,7 +69,7 @@ const Utils = {
 
 
 const Transaction = {
-    all: transactions,
+    all: Storage.get(),
 
     add(transaction) {
         Transaction.all.push(transaction);
@@ -123,20 +119,22 @@ const DOM = {
 
     addTransaction(transection, index) {
         const tr = document.createElement('tr')
+        tr.dataset.index = index
 
-        tr.innerHTML = DOM.innerHTMLTransaction(transection)
+        tr.innerHTML = DOM.innerHTMLTransaction(transection, index)
         DOM.transactionsContainer.appendChild(tr)
     },
 
-    innerHTMLTransaction(transection) {
+    innerHTMLTransaction(transection, index) {
         const CSSclass = transection.amount > 0 ? "income" : "expense"
         amount = Utils.formatCurrency(transection.amount)
 
         const html =
-            `   <td class="description">${transection.description}</td>
+            `<td class="id">${transection.id}</td>   
+            <td class="description">${transection.description}</td>
             <td class="${CSSclass}">${amount}</td>
             <td class="date">${transection.date}</td>
-            <td> <img src="./assets/minus.svg" alt="Remover transação" /></td>    
+            <td> <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação" /></td>    
         `
         return html
     },
@@ -165,6 +163,7 @@ const Form = {
 
     getVelues() {
         return {
+            id: Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(0, 9),
             description: Form.description.value,
             amount: Form.amount.value,
             date: Form.date.value
@@ -172,49 +171,48 @@ const Form = {
     },
 
     validateField() {
-
         let object = this.getVelues()
-
         if (object.description.trim() === "" ||
             object.amount.trim() === "" ||
             object.date.trim() === "") {
-
             throw new Error("Por Favor, preencha todos os campos!")
         }
-
-        object.amount = Utils.formatAmount(object.amount)
-
-        console.log(object)
-
     },
-    formateDate() {
-        console.log("Formatar Data")
+
+
+
+    formatValues() {
+        let object = this.getVelues()
+        object.amount = Utils.formatAmount(object.amount)
+        object.date = Utils.formatDate(object.date)
+        return object
+    },
+
+
+    clearFields() {
+        Form.description.value = ""
+        Form.amount.value = ""
+        Form.date.value = ""
     },
 
     submit(event) {
         event.preventDefault()
         try {
             Form.validateField()
-            Form.formateDate()
+            const object = Form.formatValues()
+            Transaction.add(object)
+            console.log(object)
+            Form.clearFields()
+            modal.close()
         } catch (error) {
             alert(error.message)
         }
-
-
-
     }
 
 }
 
 
 
+
+
 App.init()
-
-Transaction.add({
-    id: 39,
-    description: 'Aluguel',
-    amount: 200,
-    date: '23/01/2021'
-})
-
-Transaction.remove(1)
